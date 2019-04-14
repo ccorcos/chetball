@@ -1,0 +1,50 @@
+{
+  "name": "chetball",
+  "version": "1.0.3",
+  "description": "boilerplate for web applications using typescript and webpack",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --content-base www",
+    "copy-manifest": "cp -f manifest.json www/",
+    "build": "rm -rf www && webpack -p && npm run copy-manifest",
+    "deploy": "git add -f www && git commit -m 'deploy' && git push origin `git subtree split --prefix www master`:gh-pages --force && git rm -r www && git commit -m 'cleanup deploy'",
+    "clean": "rm -rf www && rm -rf plugins && rm -rf platforms",
+    "ios": "cordova run ios --device",
+    "prepare-ios": "cordova prepare && cordova-icon",
+    "build-ios": "npm run clean && npm run build && npm run prepare-ios && npm run open-ios && node hooks/plist-fix.js",
+    "open-ios": "open platforms/ios/Chetball.xcworkspace",
+    "prepare-android": "cordova prepare && cordova-icon && npm run fix-icons && npm run fix-gradle",
+    "fix-icons": "cp -rf platforms/android/app/src/main/res/* platforms/android/res",
+    "fix-gradle": "sed -i'' -e $'s/android {/android {\\\n    flavorDimensions \"default\"\\\n    dexOptions {\\\n        jumboMode = true\\\n    }\\\n/g' platforms/android/build.gradle",
+    "build-android": "npm run clean && npm run build && npm run prepare-android && npm run open-android",
+    "open-android": "open -a 'Android Studio' platforms/android"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cordova": "^6.5.0",
+    "glamor": "^2.20.40",
+    "lodash": "^4.17.4",
+    "plist": "^2.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "reactive-magic": "^2.1.5",
+    "startaudiocontext": "^1.2.1",
+    "tone": "^0.11.11"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.85",
+    "@types/react": "^16.0.38",
+    "@types/react-dom": "^16.0.4",
+    "@types/webpack": "^3.8.1",
+    "awesome-typescript-loader": "^3.4.1",
+    "cordova-icon": "^1.0.0",
+    "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^2.30.1",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.5"
+  }
+}

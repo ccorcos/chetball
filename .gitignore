@@ -1,0 +1,12 @@
+.DS_Store
+node_modules
+*.log
+dist
+package-lock.json
+www/*.js
+www/*.js.map
+www/*.html
+www/*.json
+www/*.png
+platforms
+plugins
